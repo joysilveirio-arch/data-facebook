@@ -1,0 +1,170 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Preprocessing | Sentimen Facebook</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                📊 Sentimen Facebook
+            </div>
+
+            <nav id="nav" class="sidebar-nav"></nav>
+        </aside>
+
+        <!-- KONTEN UTAMA -->
+        <main class="main-content">
+            <div class="container">
+
+                <!-- HEADER -->
+                <div class="page-header">
+                    <h1>Preprocessing</h1>
+                    <p class="small">
+                        Bersihkan dan persiapkan teks Facebook sebelum analisis sentimen.
+                    </p>
+                </div>
+
+                <!-- PESAN ALERT -->
+                <div id="alert" role="status" aria-live="polite"></div>
+
+                <!-- PANEL PROSES PREPROCESSING -->
+                <section class="panel">
+                    <h2>Pengaturan Preprocessing</h2>
+
+                    <p class="small">
+                        Jalankan preprocessing pada data yang tersimpan di database.
+                    </p>
+
+                    <div class="row">
+                        <input
+                            id="limit"
+                            type="number"
+                            min="1"
+                            step="1"
+                            placeholder="Limit data (opsional)"
+                            aria-label="Batas jumlah data"
+                            style="max-width: 240px;"
+                        >
+
+                        <label class="small">
+                            <input type="checkbox" id="force">
+                            Proses ulang data
+                        </label>
+
+                        <button
+                            type="button"
+                            class="btn"
+                            id="btnRun"
+                        >
+                            Jalankan Preprocessing
+                        </button>
+                    </div>
+
+                    <p class="small">
+                        Jika limit dikosongkan, backend akan menggunakan batas
+                        default-nya. Opsi proses ulang bergantung pada dukungan
+                        backend.
+                    </p>
+                </section>
+
+                <!-- PANEL PREVIEW -->
+                <section class="panel">
+                    <h2>Preview Pembersihan Teks</h2>
+
+                    <p class="small">
+                        Masukkan teks untuk melihat hasil pembersihan sebelum
+                        memproses data dalam jumlah banyak.
+                    </p>
+
+                    <div class="row">
+                        <input
+                            id="pv"
+                            class="grow"
+                            type="text"
+                            placeholder="Contoh: Produk ini bagus sekali!!!"
+                            aria-label="Teks untuk preview"
+                        >
+
+                        <button
+                            type="button"
+                            class="btn ghost"
+                            id="btnPv"
+                        >
+                            Preview
+                        </button>
+                    </div>
+
+                    <div
+                        id="pvOut"
+                        class="small"
+                        style="margin-top: 12px; overflow-wrap: anywhere;"
+                        aria-live="polite"
+                    >
+                        Hasil preprocessing akan ditampilkan di sini.
+                    </div>
+                </section>
+
+                <!-- HASIL PREPROCESSING -->
+                <section class="panel">
+                    <h2>Hasil Preprocessing</h2>
+
+                    <p class="small">
+                        Tabel ini menampilkan ID data, teks asli, dan teks yang
+                        telah dibersihkan berdasarkan hasil dari backend.
+                    </p>
+
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Original Text</th>
+                                    <th>Cleaned Text</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="rows">
+                                <tr>
+                                    <td colspan="3" class="small">
+                                        Klik "Jalankan Preprocessing" untuk memproses data.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="../assets/js/nav.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/preprocessing.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderNav === "function") {
+                renderNav("preprocessing.html");
+            }
+
+            if (typeof initPreprocessing === "function") {
+                initPreprocessing();
+            }
+        });
+    </script>
+</body>
+</html>
+```

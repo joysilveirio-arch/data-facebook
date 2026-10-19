@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Dashboard analitik, distribusi sentimen, dan aktivitas data Facebook."
+    >
+
+    <meta name="theme-color" content="#172554">
+
+    <title>Analitik | Sentimen Facebook</title>
+
+    <!-- Favicon: tidak memerlukan file tambahan -->
+    <link
+        rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E"
+    >
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Chart.js -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+        defer>
+    </script>
+
+    <!-- Application scripts -->
+    <script src="/assets/js/nav.js" defer></script>
+    <script src="/assets/js/api.js" defer></script>
+    <script src="/assets/js/analytics.js" defer></script>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span aria-hidden="true">📊</span>
+                <span>Sentimen Facebook</span>
+            </div>
+
+            <nav
+                id="nav"
+                class="sidebar-nav"
+                aria-label="Navigasi utama">
+                <!-- Navigasi dimuat melalui nav.js -->
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <div class="container">
+
+                <!-- Page header -->
+                <header class="page-header">
+                    <h1>Analitik</h1>
+
+                    <p>
+                        Dashboard analisis data, distribusi sentimen,
+                        dan hasil prediksi komentar Facebook.
+                    </p>
+                </header>
+
+                <!-- API status and error messages -->
+                <div
+                    id="alert"
+                    role="status"
+                    aria-live="polite">
+                </div>
+
+                <!-- KPI cards -->
+                <section
+                    class="cards"
+                    id="cards"
+                    aria-label="Ringkasan analitik">
+                    <!-- KPI diisi secara dinamis melalui analytics.js -->
+                </section>
+
+                <!-- Manual sentiment chart -->
+                <section class="panel">
+                    <h2>Distribusi Sentimen Manual</h2>
+
+                    <p class="small">
+                        Distribusi label sentimen yang diberikan melalui
+                        proses labeling dataset.
+                    </p>
+
+                    <div class="chart-container">
+                        <canvas
+                            id="c1"
+                            role="img"
+                            aria-label="Grafik distribusi sentimen manual">
+                            Browser Anda tidak mendukung grafik Canvas.
+                        </canvas>
+                    </div>
+                </section>
+
+                <!-- Predicted sentiment chart -->
+                <section class="panel">
+                    <h2>Distribusi Hasil Prediksi</h2>
+
+                    <p class="small">
+                        Distribusi sentimen berdasarkan hasil prediksi
+                        model machine learning.
+                    </p>
+
+                    <div class="chart-container">
+                        <canvas
+                            id="c2"
+                            role="img"
+                            aria-label="Grafik distribusi hasil prediksi sentimen">
+                            Browser Anda tidak mendukung grafik Canvas.
+                        </canvas>
+                    </div>
+                </section>
+
+                <!-- Activity by date chart -->
+                <section class="panel">
+                    <h2>Aktivitas Data Berdasarkan Waktu</h2>
+
+                    <p class="small">
+                        Jumlah postingan atau data yang tercatat
+                        berdasarkan tanggal.
+                    </p>
+
+                    <div class="chart-container">
+                        <canvas
+                            id="c3"
+                            role="img"
+                            aria-label="Grafik aktivitas data berdasarkan tanggal">
+                            Browser Anda tidak mendukung grafik Canvas.
+                        </canvas>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="page-footer">
+                    <p class="small">
+                        Facebook Social Media Analytics &amp;
+                        Sentiment Analysis Platform
+                    </p>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Initialize page after deferred scripts have loaded -->
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            const alertBox = document.getElementById("alert");
+
+            // Periksa ketersediaan library Chart.js
+            if (typeof Chart === "undefined") {
+                console.error("Chart.js tidak berhasil dimuat.");
+
+                if (alertBox) {
+                    alertBox.textContent =
+                        "Gagal memuat Chart.js. Periksa koneksi internet.";
+                }
+            }
+
+            // Render navigasi
+            if (typeof window.renderNav === "function") {
+                window.renderNav("analytics.html");
+            } else {
+                console.error(
+                    "renderNav() tidak ditemukan. Periksa /assets/js/nav.js."
+                );
+            }
+
+            // Inisialisasi analitik
+            if (typeof window.initAnalytics === "function") {
+                window.initAnalytics();
+            } else {
+                console.error(
+                    "initAnalytics() tidak ditemukan. " +
+                    "Periksa /assets/js/analytics.js."
+                );
+
+                if (alertBox) {
+                    alertBox.textContent =
+                        "Fungsi analitik belum tersedia. " +
+                        "Periksa file /assets/js/analytics.js.";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

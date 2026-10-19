@@ -1,0 +1,162 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Labeling Manual | Sentimen Facebook</title>
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <script src="/assets/js/nav.js" defer></script>
+    <script src="/assets/js/api.js" defer></script>
+    <script src="/assets/js/labeling.js" defer></script>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                📊 Sentimen Facebook
+            </div>
+
+            <nav id="nav" class="sidebar-nav"></nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+
+                <header class="page-header">
+                    <h1>Labeling Manual</h1>
+                    <p>
+                        Fó label sentimentu ba komentáriu Facebook
+                        atu ajuda prosesu treinamentu no avaliasaun modelu.
+                    </p>
+                </header>
+
+                <!-- Alert -->
+                <div id="alert" role="status" aria-live="polite"></div>
+
+                <!-- Labeling Statistics -->
+                <section class="panel">
+                    <h2>Estatístika Labeling</h2>
+                    <div class="cards" id="stats">
+                        <p class="small">Karrega estatístika...</p>
+                    </div>
+                </section>
+
+                <!-- Manual Labeling Table -->
+                <section class="panel">
+                    <div class="row">
+                        <div class="grow">
+                            <h2>Lista Teks seidauk hetan Label</h2>
+                            <p class="small">
+                                Lee teks no hili label ne'ebé reflete sentimentu.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn ghost"
+                            id="btnRefresh">
+                            Atualiza
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Teks</th>
+                                    <th>Autor</th>
+                                    <th>Aksaun</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="rows">
+                                <tr>
+                                    <td colspan="4">
+                                        Karrega lista teks...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div
+                        class="pagination"
+                        id="pager"
+                        aria-label="Pajina lista">
+                    </div>
+                </section>
+
+                <!-- Labeling Guide -->
+                <section class="panel">
+                    <h2>Guia Labeling</h2>
+
+                    <ul>
+                        <li>
+                            <strong>Positive:</strong>
+                            Teks ne'ebé hatudu apresiasaun,
+                            kontentamentu ka sentimentu pozitivu.
+                        </li>
+                        <li>
+                            <strong>Negative:</strong>
+                            Teks ne'ebé hatudu insatisfasaun,
+                            kritika ka sentimentu negativu.
+                        </li>
+                        <li>
+                            <strong>Neutral:</strong>
+                            Teks ne'ebé informativu ka la hatudu
+                            sentimentu pozitivu ka negativu ne'ebé klaru.
+                        </li>
+                    </ul>
+
+                    <p class="small">
+                        Halo labeling tuir signifikadu teks,
+                        la'ós tuir liafuan ida deit.
+                        Se teks la klaru, lee nia kontestu antes hili label.
+                    </p>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderNav === "function") {
+                renderNav("labeling.html");
+            }
+
+            if (typeof initLabeling === "function") {
+                initLabeling();
+            } else {
+                const alertBox = document.getElementById("alert");
+
+                if (alertBox) {
+                    alertBox.textContent =
+                        "Erro: initLabeling() la hetan. Verifika labeling.js.";
+                }
+            }
+
+            const refreshButton = document.getElementById("btnRefresh");
+
+            if (refreshButton) {
+                refreshButton.addEventListener("click", function () {
+                    if (typeof initLabeling === "function") {
+                        initLabeling();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+```
