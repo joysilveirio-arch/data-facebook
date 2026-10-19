@@ -1,0 +1,332 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dataset Management | Sentimen Facebook</title>
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- JavaScript files -->
+    <script src="/assets/js/nav.js" defer></script>
+    <script src="/assets/js/api.js" defer></script>
+    <script src="/assets/js/dataset.js" defer></script>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                📊 Sentimen Facebook
+            </div>
+
+            <nav
+                id="nav"
+                class="sidebar-nav"
+                aria-label="Menu navegasaun">
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+
+                <!-- Page Header -->
+                <header class="page-header">
+                    <h1>Dataset Management</h1>
+                    <p>
+                        Importa, aumenta, lee, edita no hamoos dadus
+                        Facebook ne'ebé rai iha database.
+                    </p>
+                </header>
+
+                <!-- Alert Messages -->
+                <div
+                    id="alert"
+                    role="status"
+                    aria-live="polite">
+                </div>
+
+                <!-- =====================================
+                     CREATE / UPDATE RECORD
+                ====================================== -->
+                <section class="panel" id="recordFormPanel">
+                    <h2 id="recordFormTitle">Aumenta Record Foun</h2>
+
+                    <p class="small">
+                        Hatama informasaun post ka komentáriu Facebook.
+                        Kampu ho sinal * obrigatóriu.
+                    </p>
+
+                    <form id="recordForm">
+                        <!-- ID ba prosesu edita record -->
+                        <input type="hidden" id="recordId">
+
+                        <div class="row">
+                            <label class="grow" for="commentId">
+                                Comment ID *
+                                <input
+                                    type="text"
+                                    id="commentId"
+                                    maxlength="100"
+                                    required
+                                    placeholder="Hatama ID komentáriu">
+                            </label>
+
+                            <label class="grow" for="authorName">
+                                Naran Autor
+                                <input
+                                    type="text"
+                                    id="authorName"
+                                    maxlength="255"
+                                    placeholder="Naran autor">
+                            </label>
+                        </div>
+
+                        <label for="recordText">
+                            Testu Post / Komentáriu *
+                            <textarea
+                                id="recordText"
+                                maxlength="50000"
+                                rows="4"
+                                required
+                                placeholder="Hatama testu post ka komentáriu Facebook"></textarea>
+                        </label>
+
+                        <div class="row">
+                            <label class="grow" for="authorId">
+                                Author ID
+                                <input
+                                    type="text"
+                                    id="authorId"
+                                    maxlength="100"
+                                    placeholder="ID autor (opcional)">
+                            </label>
+
+                            <label class="grow" for="postTitle">
+                                Títulu Post
+                                <input
+                                    type="text"
+                                    id="postTitle"
+                                    maxlength="10000"
+                                    placeholder="Títulu post">
+                            </label>
+                        </div>
+
+                        <div class="row">
+                            <label class="grow" for="recordDate">
+                                Data
+                                <input
+                                    type="text"
+                                    id="recordDate"
+                                    maxlength="50"
+                                    placeholder="Data tuir formatu dataset">
+                            </label>
+
+                            <label class="grow" for="likesCount">
+                                Total Likes
+                                <input
+                                    type="number"
+                                    id="likesCount"
+                                    min="0"
+                                    step="1"
+                                    value="0"
+                                    required>
+                            </label>
+                        </div>
+
+                        <label for="sourceUrl">
+                            Source URL
+                            <input
+                                type="url"
+                                id="sourceUrl"
+                                maxlength="1000"
+                                placeholder="https://... (opcional)">
+                        </label>
+
+                        <div class="row">
+                            <button
+                                type="submit"
+                                class="btn"
+                                id="btnSaveRecord">
+                                Rai Record
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn ghost"
+                                id="btnCancelEdit"
+                                hidden>
+                                Kansela
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn ghost"
+                                id="btnClearForm">
+                                Hamós Formuláriu
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- =====================================
+                     IMPORT DATASET
+                ====================================== -->
+                <section class="panel" id="importPanel">
+                    <h2>Importa Dataset</h2>
+
+                    <p class="small">
+                        Hatama path ba ficheiru CSV ka JSON ne'ebé
+                        bele asesu hosi backend.
+                    </p>
+
+                    <div class="row">
+                        <label class="grow" for="filePath">
+                            Path / Naran Ficheiru
+                            <input
+                                type="text"
+                                id="filePath"
+                                value="data_facebook.csv"
+                                placeholder="data_facebook.csv"
+                                aria-label="Path dataset">
+                        </label>
+
+                        <label for="format">
+                            Formatu
+                            <select
+                                id="format"
+                                aria-label="Formatu dataset">
+                                <option value="csv">CSV</option>
+                                <option value="json">JSON</option>
+                            </select>
+                        </label>
+
+                        <label class="small" for="reset">
+                            <input
+                                type="checkbox"
+                                id="reset">
+                            Reset dadus antes import
+                        </label>
+
+                        <button
+                            type="button"
+                            class="btn"
+                            id="btnImport">
+                            Importa Dataset
+                        </button>
+                    </div>
+
+                    <p class="small">
+                        Atensaun: opsaun reset bele hamoos ka substitui
+                        dadus ne'ebé eziste ona, depende ba backend.
+                        Verifika implementasaun backend molok uza.
+                    </p>
+                </section>
+
+                <!-- =====================================
+                     RECORD LIST / SEARCH / FILTER
+                ====================================== -->
+                <section class="panel" id="recordsPanel">
+                    <h2>Lista Records</h2>
+
+                    <p class="small">
+                        Buka record, filtra tuir sentimentu, edita
+                        ka hamoos record.
+                    </p>
+
+                    <form id="searchForm">
+                        <div class="row">
+                            <label class="grow" for="q">
+                                Buka Record
+                                <input
+                                    type="search"
+                                    id="q"
+                                    placeholder="Buka tuir testu ka autor..."
+                                    aria-label="Buka record">
+                            </label>
+
+                            <label for="fLabel">
+                                Filtra Sentimentu
+                                <select
+                                    id="fLabel"
+                                    aria-label="Filtra tuir sentimentu">
+                                    <option value="">Sentimentu hotu</option>
+                                    <option value="positive">Positive</option>
+                                    <option value="negative">Negative</option>
+                                    <option value="neutral">Neutral</option>
+                                </select>
+                            </label>
+
+                            <button
+                                type="submit"
+                                class="btn ghost"
+                                id="btnSearch">
+                                Buka
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Table -->
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Comment ID</th>
+                                    <th scope="col">Testu</th>
+                                    <th scope="col">Autor</th>
+                                    <th scope="col">Label Manual</th>
+                                    <th scope="col">Predisaun</th>
+                                    <th scope="col">Aksaun</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="rows">
+                                <tr>
+                                    <td
+                                        colspan="7"
+                                        style="text-align: center; padding: 24px;">
+                                        Dadus sei karrega...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div
+                        class="pagination"
+                        id="pager"
+                        aria-label="Pagination">
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="page-footer">
+                    <p class="small">
+                        Facebook Social Media Analytics &amp;
+                        Multilingual Sentiment Analysis Platform
+                    </p>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Navigation initialization only.
+         dataset.js handles its own initialization. -->
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            if (typeof window.renderNav === "function") {
+                window.renderNav("dataset.html");
+            }
+        });
+    </script>
+</body>
+</html>
+```
